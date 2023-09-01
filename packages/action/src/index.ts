@@ -6,6 +6,8 @@ const isPost = core.getState('isPost')
 
 async function run() {
   if (!isPost) {
+    core.saveState('isPost', 'true')
+
     try {
       const pid = await main()
       core.saveState('pid', pid)
@@ -13,8 +15,6 @@ async function run() {
       if (e instanceof Error) {
         core.setFailed(e.message)
       }
-    } finally {
-      core.saveState('isPost', 'true')
     }
   } else {
     try {

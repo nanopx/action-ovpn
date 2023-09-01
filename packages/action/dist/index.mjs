@@ -17,8 +17,8 @@ async function run() {
     fs.writeFile(logFile, "", "utf-8")
   ]);
   const tail = new Tail(logFile);
-  core.info("Connecting to VPN...");
   try {
+    core.info("Connecting to VPN...");
     const { stdout } = await $`sudo openvpn --config ${configFile} --daemon --log ${logFile} --writepid ${pidFile}`;
     core.info(stdout);
   } catch (e) {
@@ -72,6 +72,7 @@ async function run2(pid) {
 var isPost = core3.getState("isPost");
 async function run3() {
   if (!isPost) {
+    core3.saveState("isPost", "true");
     try {
       const pid = await run();
       core3.saveState("pid", pid);
@@ -79,8 +80,6 @@ async function run3() {
       if (e instanceof Error) {
         core3.setFailed(e.message);
       }
-    } finally {
-      core3.saveState("isPost", "true");
     }
   } else {
     try {

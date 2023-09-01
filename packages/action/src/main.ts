@@ -18,9 +18,8 @@ export async function run(): Promise<string> {
 
   const tail = new Tail(logFile)
 
-  core.info('Connecting to VPN...')
-
   try {
+    core.info('Connecting to VPN...')
     const { stdout } =
       await $`sudo openvpn --config ${configFile} --daemon --log ${logFile} --writepid ${pidFile}`
     core.info(stdout)
