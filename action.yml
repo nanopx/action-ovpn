@@ -12,3 +12,4 @@ inputs:
 runs:
   using: 'node20'
   main: 'packages/action/dist/index.js'
+  post: 'packages/action/dist/index.js'

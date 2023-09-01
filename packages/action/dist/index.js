@@ -23,9 +23,24 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 ));
 
 // src/index.ts
+var fs = __toESM(require("fs/promises"));
 var core = __toESM(require("@actions/core"));
+var import_execa = require("execa");
+var import_tail = require("tail");
 var ovpnConfig = core.getInput("ovpnConfig");
+var configPath = ".config.ovpn";
 async function run() {
   console.log("Config", ovpnConfig);
+  await fs.writeFile(configPath, ovpnConfig, "utf-8");
+  try {
+    await import_execa.$`sudo openvpn --config ${configPath} --daemon --log .openvpn.log --writepid openvpn.pid`;
+  } catch (e) {
+    if (e instanceof Error) {
+      core.error(e.message);
+    } else {
+      core.error("Unknown error");
+    }
+    throw e;
+  }
 }
 run();

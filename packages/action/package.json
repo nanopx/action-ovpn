@@ -22,7 +22,10 @@
   ],
   "dependencies": {
     "@actions/core": "1.10.0",
-    "@actions/github": "5.1.1"
+    "execa": "8.0.1",
+    "tail": "2.2.6"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/tail": "2.2.1"
+  }
 }
