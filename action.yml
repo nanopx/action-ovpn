@@ -8,6 +8,12 @@ inputs:
   ovpnConfig:
     required: true
     description: 'Content of ovpn config file'
+  username:
+    required: false
+    description: 'Username for VPN'
+  password:
+    required: false
+    description: 'Password for VPN'
 # outputs:
 runs:
   using: 'node20'
