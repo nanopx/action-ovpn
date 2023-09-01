@@ -27,7 +27,9 @@ async function run() {
   const tail = new Tail(logFile);
   try {
     core.info("Connecting to VPN...");
-    const { stdout } = await $`sudo -b openvpn --config ${configFile} --log ${logFile} --writepid ${pidFile}`;
+    const { stdout } = await $({
+      detached: true
+    })`sudo openvpn --config ${configFile} --daemon --log ${logFile} --writepid ${pidFile}`;
     core.info(stdout);
   } catch (e) {
     tail.unwatch();
