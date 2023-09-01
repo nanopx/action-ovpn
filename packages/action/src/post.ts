@@ -11,7 +11,7 @@ export async function run(pid: string) {
   core.info('Cleaning up VPN connection...')
 
   try {
-    await $`sudo kill ${pid} || true`
+    await $`sudo kill ${pid}`
     core.info('Done.')
   } catch (e) {
     if (e instanceof Error) {
