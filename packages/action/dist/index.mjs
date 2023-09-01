@@ -17,9 +17,10 @@ async function run() {
     fs.writeFile(logFile, "", "utf-8")
   ]);
   const tail = new Tail(logFile);
+  core.info("Connecting to VPN...");
   try {
-    const result = await $`sudo openvpn --config ${configFile} --daemon --log ${logFile} --writepid ${pidFile}`;
-    core.info(result.stdout);
+    const { stdout } = await $`sudo openvpn --config ${configFile} --daemon --log ${logFile} --writepid ${pidFile}`;
+    core.info(stdout);
   } catch (e) {
     if (e instanceof Error) {
       core.error(e.message);
@@ -53,8 +54,10 @@ async function run2(pid) {
     core2.warning("Could not find process");
     return;
   }
+  core2.info("Cleaning up VPN connection...");
   try {
-    $2`sudo kill ${pid} || true`;
+    await $2`sudo kill ${pid} || true`;
+    core2.info("Done.");
   } catch (e) {
     if (e instanceof Error) {
       core2.warning(e.message);

@@ -8,8 +8,11 @@ export async function run(pid: string) {
     return
   }
 
+  core.info('Cleaning up VPN connection...')
+
   try {
-    $`sudo kill ${pid} || true`
+    await $`sudo kill ${pid} || true`
+    core.info('Done.')
   } catch (e) {
     if (e instanceof Error) {
       core.warning(e.message)
