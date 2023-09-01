@@ -9,13 +9,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install
-        uses: ./.github/composite-actions/install
-
       - name: Install OpenVPN
         run: |
           sudo apt update
           sudo apt install -y openvpn
+
+      - name: Install
+        uses: ./.github/composite-actions/install
 
       - uses: ./
         with:
