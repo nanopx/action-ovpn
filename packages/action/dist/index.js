@@ -3214,7 +3214,7 @@ async function run(pid) {
     }
     _actions_core__WEBPACK_IMPORTED_MODULE_0__.info('Cleaning up VPN connection...');
     try {
-        await $ `sudo kill ${pid} || true`;
+        await $ `sudo kill ${pid}`;
         _actions_core__WEBPACK_IMPORTED_MODULE_0__.info('Done.');
     }
     catch (e) {
