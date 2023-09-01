@@ -36,12 +36,13 @@ export async function run(): Promise<string> {
     throw e
   }
 
-  const timerId = setTimeout(() => {
-    core.setFailed('VPN connection timed out.')
-    tail.unwatch()
-  }, TIMEOUT)
-
   return new Promise((resolve) => {
+    const timerId = setTimeout(() => {
+      core.setFailed('VPN connection timed out.')
+      tail.unwatch()
+      throw new Error('VPN connection timed out.')
+    }, TIMEOUT)
+
     tail.on('line', async (data) => {
       core.info(data)
 
