@@ -1,7 +1,8 @@
 import * as fs from 'node:fs/promises'
 import * as core from '@actions/core'
-import { $ } from 'execa'
 import { Tail } from 'tail'
+
+const { $ } = await import('execa')
 
 const ovpnConfig: string = core.getInput('ovpnConfig')
 const configFile = '.config.ovpn'

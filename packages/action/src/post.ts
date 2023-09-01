@@ -1,5 +1,6 @@
 import * as core from '@actions/core'
-import { $ } from 'execa'
+
+const { $ } = await import('execa')
 
 export async function run(pid: string) {
   if (!pid) {

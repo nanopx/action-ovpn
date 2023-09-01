@@ -8,7 +8,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup src/index.ts",
+    "build": "tsup src/index.ts --format esm",
     "clean": "rimraf dist/"
   },
   "repository": {
