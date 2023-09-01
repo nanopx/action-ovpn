@@ -18,7 +18,8 @@ async function run() {
   ]);
   const tail = new Tail(logFile);
   try {
-    await $`sudo openvpn --config ${configFile} --daemon --log ${logFile} --writepid ${pidFile}`;
+    const result = await $`sudo openvpn --config ${configFile} --daemon --log ${logFile} --writepid ${pidFile}`;
+    core.info(result.stdout);
   } catch (e) {
     if (e instanceof Error) {
       core.error(e.message);
@@ -27,6 +28,8 @@ async function run() {
     throw e;
   }
   const timerId = setTimeout(() => {
+    core.setFailed("VPN connection timed out.");
+    tail.unwatch();
   }, TIMEOUT);
   return new Promise((resolve) => {
     tail.on("line", async (data) => {
