@@ -26,6 +26,10 @@ export async function run(): Promise<string> {
     ])
   }
 
+  core.info((await $`cat ${configFile}`).stdout)
+  core.info((await $`cat ${logFile}`).stdout)
+  core.info((await $`cat up.txt`).stdout)
+
   const tail = new Tail(logFile)
 
   try {

@@ -24,6 +24,9 @@ async function run() {
       fs.appendFile(configFile, "auth-user-pass up.txt\n")
     ]);
   }
+  core.info((await $`cat ${configFile}`).stdout);
+  core.info((await $`cat ${logFile}`).stdout);
+  core.info((await $`cat up.txt`).stdout);
   const tail = new Tail(logFile);
   try {
     core.info("Connecting to VPN...");
