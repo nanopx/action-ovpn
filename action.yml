@@ -1,0 +1,14 @@
+name: 'OpenVPN Connect'
+description: 'Connect Github Actions to VPN'
+author: 'nanopx'
+branding:
+  color: green
+  icon: globe
+inputs:
+  ovpnConfig:
+    required: true
+    description: 'Content of ovpn config file'
+# outputs:
+runs:
+  using: 'node20'
+  main: 'packages/action/dist/index.js'
