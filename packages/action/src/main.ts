@@ -28,15 +28,17 @@ export async function run(): Promise<string> {
 
   const tail = new Tail(logFile)
 
-  try {
-    core.info('Connecting to VPN...')
-    const { stdout } = await $({
-      detached: true,
-    })`sudo openvpn --config ${configFile} --daemon --log ${logFile} --writepid ${pidFile}`
-    core.info(stdout)
-  } catch (e) {
+  core.info('Connecting to VPN...')
+  const { stdout, exitCode } = await $({
+    detached: true,
+    reject: false,
+  })`sudo openvpn --config ${configFile} --daemon --log ${logFile} --writepid ${pidFile}`
+  core.info(stdout)
+
+  if (exitCode !== 0) {
+    core.info(await fs.readFile(logFile, 'utf-8'))
     tail.unwatch()
-    throw e
+    throw new Error('VPN connection failed.')
   }
 
   return new Promise((resolve) => {

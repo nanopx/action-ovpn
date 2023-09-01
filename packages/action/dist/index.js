@@ -3161,16 +3161,16 @@ async function run() {
         ]);
     }
     const tail = new tail__WEBPACK_IMPORTED_MODULE_2__/* .Tail */ .x(logFile);
-    try {
-        _actions_core__WEBPACK_IMPORTED_MODULE_1__.info('Connecting to VPN...');
-        const { stdout } = await $({
-            detached: true,
-        }) `sudo openvpn --config ${configFile} --daemon --log ${logFile} --writepid ${pidFile}`;
-        _actions_core__WEBPACK_IMPORTED_MODULE_1__.info(stdout);
-    }
-    catch (e) {
+    _actions_core__WEBPACK_IMPORTED_MODULE_1__.info('Connecting to VPN...');
+    const { stdout, exitCode } = await $({
+        detached: true,
+        reject: false,
+    }) `sudo openvpn --config ${configFile} --daemon --log ${logFile} --writepid ${pidFile}`;
+    _actions_core__WEBPACK_IMPORTED_MODULE_1__.info(stdout);
+    if (exitCode !== 0) {
+        _actions_core__WEBPACK_IMPORTED_MODULE_1__.info(await node_fs_promises__WEBPACK_IMPORTED_MODULE_0__.readFile(logFile, 'utf-8'));
         tail.unwatch();
-        throw e;
+        throw new Error('VPN connection failed.');
     }
     return new Promise((resolve) => {
         const timerId = setTimeout(() => {
