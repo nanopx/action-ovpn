@@ -1,19 +1,19 @@
-name: 'OpenVPN Connect'
+name: 'Setup OpenVPN connection'
 description: 'Connect Github Actions to VPN'
-author: 'nanopx'
+author: nanopx
 branding:
   color: green
   icon: globe
 inputs:
   ovpnConfig:
     required: true
-    description: 'Content of ovpn config file'
+    description: 'Content of .ovpn config file'
   username:
     required: false
-    description: 'Username for VPN'
+    description: 'OpenVPN username'
   password:
     required: false
-    description: 'Password for VPN'
+    description: 'OpenVPN password'
 # outputs:
 runs:
   using: 'node20'
