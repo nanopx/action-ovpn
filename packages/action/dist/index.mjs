@@ -7,32 +7,34 @@ import * as core from "@actions/core";
 import { Tail } from "tail";
 var { $ } = await import("execa");
 var ovpnConfig = core.getInput("ovpnConfig");
+var username = core.getInput("username");
+var password = core.getInput("password");
 var configFile = ".config.ovpn";
 var logFile = ".openvpn.log";
 var pidFile = ".openvpn.pid";
 var TIMEOUT = 15 * 1e3;
 async function run() {
   await Promise.all([
-    fs.writeFile(configFile, ovpnConfig, "utf-8"),
-    fs.writeFile(logFile, "", "utf-8")
+    fs.writeFile(configFile, ovpnConfig, { mode: 384 }),
+    fs.writeFile(logFile, "", { mode: 384 })
   ]);
+  if (username && password) {
+    await Promise.all([
+      fs.writeFile("up.txt", [username, password].join("\n"), { mode: 384 }),
+      fs.appendFile(configFile, "auth-user-pass up.txt\n")
+    ]);
+  }
   const tail = new Tail(logFile);
   try {
     core.info("Connecting to VPN...");
     const { stdout } = await $`sudo openvpn --config ${configFile} --daemon --log ${logFile} --writepid ${pidFile}`;
     core.info(stdout);
   } catch (e) {
-    if (e instanceof Error) {
-      core.error(e.message);
-    } else {
-      core.error("Unknown error");
-    }
     tail.unwatch();
     throw e;
   }
   return new Promise((resolve) => {
     const timerId = setTimeout(() => {
-      core.setFailed("VPN connection timed out.");
       tail.unwatch();
       throw new Error("VPN connection timed out.");
     }, TIMEOUT);
