@@ -27,6 +27,8 @@ export async function run(): Promise<string> {
   } catch (e) {
     if (e instanceof Error) {
       core.error(e.message)
+    } else {
+      core.error('Unknown error')
     }
 
     tail.unwatch()

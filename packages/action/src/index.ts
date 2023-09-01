@@ -14,7 +14,7 @@ async function run() {
         core.setFailed(e.message)
       }
     } finally {
-      core.saveState('isPost', true)
+      core.saveState('isPost', 'true')
     }
   } else {
     try {

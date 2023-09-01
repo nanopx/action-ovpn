@@ -24,6 +24,8 @@ async function run() {
   } catch (e) {
     if (e instanceof Error) {
       core.error(e.message);
+    } else {
+      core.error("Unknown error");
     }
     tail.unwatch();
     throw e;
@@ -77,7 +79,7 @@ async function run3() {
         core3.setFailed(e.message);
       }
     } finally {
-      core3.saveState("isPost", true);
+      core3.saveState("isPost", "true");
     }
   } else {
     try {
