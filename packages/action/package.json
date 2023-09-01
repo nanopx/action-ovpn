@@ -1,6 +1,6 @@
 {
   "name": "@nanopx/action-ovpn",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Connect Github Actions to VPN",
   "author": "nanopx <0nanopx@gmail.com>",
   "license": "MIT",
@@ -8,7 +8,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format esm",
+    "build": "ncc build src/index.ts --license licenses.txt",
     "clean": "rimraf dist/"
   },
   "repository": {

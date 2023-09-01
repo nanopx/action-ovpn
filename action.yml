@@ -17,5 +17,5 @@ inputs:
 # outputs:
 runs:
   using: 'node20'
-  main: 'packages/action/dist/index.mjs'
-  post: 'packages/action/dist/index.mjs'
+  main: 'packages/action/dist/index.js'
+  post: 'packages/action/dist/index.js'
