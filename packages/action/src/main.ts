@@ -22,20 +22,16 @@ export async function run(): Promise<string> {
   if (username && password) {
     await Promise.all([
       fs.writeFile('up.txt', [username, password].join('\n'), { mode: 0o600 }),
-      fs.appendFile(configFile, 'auth-user-pass up.txt\n'),
+      fs.appendFile(configFile, '\nauth-user-pass up.txt\n'),
     ])
   }
-
-  core.info((await $`cat ${configFile}`).stdout)
-  core.info((await $`cat ${logFile}`).stdout)
-  core.info((await $`cat up.txt`).stdout)
 
   const tail = new Tail(logFile)
 
   try {
     core.info('Connecting to VPN...')
     const { stdout } =
-      await $`sudo openvpn --config ${configFile} --daemon --log ${logFile} --writepid ${pidFile}`
+      await $`sudo -b openvpn --config ${configFile} --log ${logFile} --writepid ${pidFile}`
     core.info(stdout)
   } catch (e) {
     tail.unwatch()
