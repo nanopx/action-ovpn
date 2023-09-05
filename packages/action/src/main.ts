@@ -24,10 +24,9 @@ export async function run(): Promise<string> {
     core.info(`Ignoring domains: ${domains.join(', ')}`)
 
     const results = await Promise.all(domains.map((domain) => $`dig -4 -t A +short ${domain}`))
+    const routes = results.map((result) => `route ${result.stdout} 255.255.255.255`)
 
-    const ips = results.map((result) => result.stdout)
-
-    core.info(ips.join('\n'))
+    await fs.appendFile(configFile, `\n${routes.join('\n')}\n`)
   }
 
   // username & password auth
