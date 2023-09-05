@@ -18,6 +18,8 @@ async function cleanup() {
   }
 }
 
+core.info(`disconnect: ${disconnect} / isCleanup: ${isCleanedUp}`)
+
 async function run() {
   if (disconnect && isCleanedUp !== 'true') {
     core.info('Disconnecting VPN using `disconnect` option.')

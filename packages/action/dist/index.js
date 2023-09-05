@@ -3106,6 +3106,7 @@ async function cleanup() {
         }
     }
 }
+_actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`disconnect: ${disconnect} / isCleanup: ${isCleanedUp}`);
 async function run() {
     if (disconnect && isCleanedUp !== 'true') {
         _actions_core__WEBPACK_IMPORTED_MODULE_0__.info('Disconnecting VPN using `disconnect` option.');
