@@ -3094,7 +3094,7 @@ var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_mai
 const disconnect = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('disconnect');
 const isPost = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getState('isPost');
 const isCleanedUp = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getState('isCleanedUp');
-const pid = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('pid') ?? _actions_core__WEBPACK_IMPORTED_MODULE_0__.getState('pid');
+const pid = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('pid') || _actions_core__WEBPACK_IMPORTED_MODULE_0__.getState('pid');
 async function cleanup() {
     try {
         await (0,_post__WEBPACK_IMPORTED_MODULE_2__/* .run */ .K)(pid);
