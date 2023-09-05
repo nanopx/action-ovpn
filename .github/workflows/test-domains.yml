@@ -1,4 +1,4 @@
-name: 'test-ignore-domains'
+name: 'test-domains'
 
 on: [push]
 
@@ -20,6 +20,5 @@ jobs:
           ovpnConfig: ${{ secrets.OVPN_CONFIG }}
           username: ${{ secrets.OVPN_USERNAME }}
           password: ${{ secrets.OVPN_PASSWORD }}
-          ignoreDomains: |-
-            fonts.googleapis.com
-            fonts.gstatic.com
+          domains: |-
+            google.com

@@ -3164,7 +3164,7 @@ const { $ } = await __nccwpck_require__.e(/* import() */ 670).then(__nccwpck_req
 const ovpnConfig = _actions_core__WEBPACK_IMPORTED_MODULE_1__.getInput('ovpnConfig');
 const username = _actions_core__WEBPACK_IMPORTED_MODULE_1__.getInput('username');
 const password = _actions_core__WEBPACK_IMPORTED_MODULE_1__.getInput('password');
-const ignoreDomains = _actions_core__WEBPACK_IMPORTED_MODULE_1__.getInput('ignoreDomains');
+const domains = _actions_core__WEBPACK_IMPORTED_MODULE_1__.getInput('domains');
 const configFile = '.config.ovpn';
 const logFile = '.openvpn.log';
 const pidFile = '.openvpn.pid';
@@ -3174,10 +3174,10 @@ async function run() {
         node_fs_promises__WEBPACK_IMPORTED_MODULE_0__.writeFile(configFile, ovpnConfig, { mode: 0o600 }),
         node_fs_promises__WEBPACK_IMPORTED_MODULE_0__.writeFile(logFile, '', { mode: 0o600 }),
     ]);
-    if (ignoreDomains) {
-        const domains = ignoreDomains.split(/\r|\n/).map((domain) => domain.trim());
-        _actions_core__WEBPACK_IMPORTED_MODULE_1__.info(`Ignoring domains: ${domains.join(', ')}`);
-        const results = await Promise.all(domains.map((domain) => $ `dig -4 -t A +short ${domain}`));
+    if (domains) {
+        const domainList = domains.split(/\r|\n/).map((domain) => domain.trim());
+        _actions_core__WEBPACK_IMPORTED_MODULE_1__.info(`Ignoring domains: ${domainList.join(', ')}`);
+        const results = await Promise.all(domainList.map((domain) => $ `dig -4 -t A +short ${domain}`));
         const ips = results.flatMap((result) => result.stdout.split(/\r|\n/));
         const routes = ips.map((ip) => `route ${ip} 255.255.255.255`);
         await node_fs_promises__WEBPACK_IMPORTED_MODULE_0__.appendFile(configFile, `\n${routes.join('\n')}\n`);
