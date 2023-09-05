@@ -7,6 +7,8 @@ const isPost = core.getState('isPost')
 const isCleanedUp = core.getState('isCleanedUp')
 const pid = core.getInput('pid') || core.getState('pid')
 
+core.info(`pid: ${pid}`)
+
 async function cleanup() {
   try {
     await post(pid)
