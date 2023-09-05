@@ -10,12 +10,12 @@ jobs:
 
       - name: Install OpenVPN
         run: |
-          sudo apt update && sudo apt upgrade -y
+          sudo apt update
           sudo apt install -y openvpn
 
       - name: Get public IP
         run: |
-          curl -m 5 'https://api64.ipify.org?format=json'
+          curl -m 5 'https://api.ipify.org?format=json'
 
       - name: Connect to VPN
         uses: ./
@@ -25,11 +25,11 @@ jobs:
           username: ${{ secrets.OVPN_USERNAME }}
           password: ${{ secrets.OVPN_PASSWORD }}
           domains: |-
-            api64.ipify.org
+            api.ipify.org
 
       - name: Get public IP
         run: |
-          curl -m 5 'https://api64.ipify.org?format=json'
+          curl -m 5 'https://api.ipify.org?format=json'
 
   test-ignored:
     runs-on: ubuntu-latest
@@ -43,7 +43,7 @@ jobs:
 
       - name: Get public IP
         run: |
-          curl -m 5 'https://api64.ipify.org?format=json'
+          curl -m 5 'https://api.ipify.org?format=json'
 
       - name: Connect to VPN
         uses: ./
@@ -57,5 +57,5 @@ jobs:
 
       - name: Get public IP
         run: |
-          curl -m 5 'https://api64.ipify.org?format=json'
+          curl -m 5 'https://api.ipify.org?format=json'
         
