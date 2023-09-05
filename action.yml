@@ -17,6 +17,9 @@ inputs:
   disconnect:
     required: false
     description: 'Disconnect from VPN'
+  ignoreDomains:
+    required: false
+    description: 'Bypass VPN for these domains'
   pid:
     required: false
     description: 'OpenVPN process ID (Required when disconnect is true)'

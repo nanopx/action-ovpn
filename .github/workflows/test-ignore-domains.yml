@@ -1,0 +1,25 @@
+name: 'test-disconnect'
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Install OpenVPN
+        run: |
+          sudo apt update
+          sudo apt install -y openvpn
+
+      - name: Connect to VPN
+        uses: ./
+        id: ovpn
+        with:
+          ovpnConfig: ${{ secrets.OVPN_CONFIG }}
+          username: ${{ secrets.OVPN_USERNAME }}
+          password: ${{ secrets.OVPN_PASSWORD }}
+          ignoreDomains: |-
+            fonts.googleapis.com
+            fonts.gstatic.com

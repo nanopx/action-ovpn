@@ -7,6 +7,7 @@ const { $ } = await import('execa')
 const ovpnConfig: string = core.getInput('ovpnConfig')
 const username: string = core.getInput('username')
 const password: string = core.getInput('password')
+const ignoreDomains: string = core.getInput('ignoreDomains')
 const configFile = '.config.ovpn'
 const logFile = '.openvpn.log'
 const pidFile = '.openvpn.pid'
@@ -17,6 +18,11 @@ export async function run(): Promise<string> {
     fs.writeFile(configFile, ovpnConfig, { mode: 0o600 }),
     fs.writeFile(logFile, '', { mode: 0o600 }),
   ])
+
+  if (ignoreDomains) {
+    const domains = ignoreDomains.split(/\r|\n/)
+    core.info(`Ignoring domains: ${domains.join(', ')}`)
+  }
 
   // username & password auth
   if (username && password) {
