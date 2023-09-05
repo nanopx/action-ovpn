@@ -1,4 +1,4 @@
-name: 'test-disconnect'
+name: 'test-ignore-domains'
 
 on: [push]
 
