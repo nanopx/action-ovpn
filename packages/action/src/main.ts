@@ -20,8 +20,16 @@ export async function run(): Promise<string> {
   ])
 
   if (ignoreDomains) {
-    const domains = ignoreDomains.split(/\r|\n/)
+    const domains = ignoreDomains.split(/\r|\n/).map((domain) => domain.trim())
     core.info(`Ignoring domains: ${domains.join(', ')}`)
+
+    const results = await Promise.all(
+      domains.map((domain) => {
+        return $`dig -4 -t A +short ${domain} | xargs -r -I '{}' echo 'route {} 255.255.255.255'`
+      }),
+    )
+
+    core.info(results.map((result) => result.stdout).join('\n'))
   }
 
   // username & password auth

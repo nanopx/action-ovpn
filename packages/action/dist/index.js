@@ -3175,8 +3175,12 @@ async function run() {
         node_fs_promises__WEBPACK_IMPORTED_MODULE_0__.writeFile(logFile, '', { mode: 0o600 }),
     ]);
     if (ignoreDomains) {
-        const domains = ignoreDomains.split(/\r|\n/);
+        const domains = ignoreDomains.split(/\r|\n/).map((domain) => domain.trim());
         _actions_core__WEBPACK_IMPORTED_MODULE_1__.info(`Ignoring domains: ${domains.join(', ')}`);
+        const results = await Promise.all(domains.map((domain) => {
+            return $ `dig -4 -t A +short ${domain} | xargs -r -I '{}' echo 'route {} 255.255.255.255'`;
+        }));
+        _actions_core__WEBPACK_IMPORTED_MODULE_1__.info(results.map((result) => result.stdout).join('\n'));
     }
     // username & password auth
     if (username && password) {
