@@ -3092,7 +3092,25 @@ var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_mai
 
 
 const isPost = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getState('isPost');
+const disconnect = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getState('disconnect');
+const isCleanedUp = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getState('isCleanedUp');
+async function cleanup() {
+    try {
+        const pid = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getState('pid');
+        await (0,_post__WEBPACK_IMPORTED_MODULE_2__/* .run */ .K)(pid);
+        _actions_core__WEBPACK_IMPORTED_MODULE_0__.saveState('isCleanedUp', 'true');
+    }
+    catch (e) {
+        if (e instanceof Error) {
+            _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(e.message);
+        }
+    }
+}
 async function run() {
+    if (disconnect) {
+        await cleanup();
+        return;
+    }
     if (!isPost) {
         _actions_core__WEBPACK_IMPORTED_MODULE_0__.saveState('isPost', 'true');
         try {
@@ -3106,15 +3124,11 @@ async function run() {
         }
     }
     else {
-        try {
-            const pid = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getState('pid');
-            await (0,_post__WEBPACK_IMPORTED_MODULE_2__/* .run */ .K)(pid);
+        if (isCleanedUp) {
+            _actions_core__WEBPACK_IMPORTED_MODULE_0__.info('VPN already disconnected.');
+            return;
         }
-        catch (e) {
-            if (e instanceof Error) {
-                _actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed(e.message);
-            }
-        }
+        await cleanup();
     }
 }
 run();
