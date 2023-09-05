@@ -3177,10 +3177,9 @@ async function run() {
     if (ignoreDomains) {
         const domains = ignoreDomains.split(/\r|\n/).map((domain) => domain.trim());
         _actions_core__WEBPACK_IMPORTED_MODULE_1__.info(`Ignoring domains: ${domains.join(', ')}`);
-        const results = await Promise.all(domains.map((domain) => {
-            return $ `dig -4 -t A +short ${domain} | xargs -r -I '{}' echo 'route {} 255.255.255.255'`;
-        }));
-        _actions_core__WEBPACK_IMPORTED_MODULE_1__.info(results.map((result) => result.stdout).join('\n'));
+        const results = await Promise.all(domains.map((domain) => $ `dig -4 -t A +short ${domain}`));
+        const ips = results.map((result) => result.stdout);
+        _actions_core__WEBPACK_IMPORTED_MODULE_1__.info(ips.join('\n'));
     }
     // username & password auth
     if (username && password) {
