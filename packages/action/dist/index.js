@@ -3178,7 +3178,8 @@ async function run() {
         const domains = ignoreDomains.split(/\r|\n/).map((domain) => domain.trim());
         _actions_core__WEBPACK_IMPORTED_MODULE_1__.info(`Ignoring domains: ${domains.join(', ')}`);
         const results = await Promise.all(domains.map((domain) => $ `dig -4 -t A +short ${domain}`));
-        const routes = results.map((result) => `route ${result.stdout} 255.255.255.255`);
+        const ips = results.flatMap((result) => result.stdout.split(/\r|\n/));
+        const routes = ips.map((ip) => `route ${ip} 255.255.255.255`);
         await node_fs_promises__WEBPACK_IMPORTED_MODULE_0__.appendFile(configFile, `\n${routes.join('\n')}\n`);
     }
     // username & password auth

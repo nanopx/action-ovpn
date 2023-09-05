@@ -24,7 +24,8 @@ export async function run(): Promise<string> {
     core.info(`Ignoring domains: ${domains.join(', ')}`)
 
     const results = await Promise.all(domains.map((domain) => $`dig -4 -t A +short ${domain}`))
-    const routes = results.map((result) => `route ${result.stdout} 255.255.255.255`)
+    const ips = results.flatMap((result) => result.stdout.split(/\r|\n/))
+    const routes = ips.map((ip) => `route ${ip} 255.255.255.255`)
 
     await fs.appendFile(configFile, `\n${routes.join('\n')}\n`)
   }
