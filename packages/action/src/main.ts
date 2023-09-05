@@ -30,7 +30,7 @@ export async function run(): Promise<string> {
 
     const routes = ips.map((ip) => `route ${ip} 255.255.255.255`)
 
-    await fs.appendFile(configFile, `\n${routes.join('\n')}\n`)
+    await fs.appendFile(configFile, `\nroute-nopull\n${routes.join('\n')}\n`)
   }
 
   // username & password auth

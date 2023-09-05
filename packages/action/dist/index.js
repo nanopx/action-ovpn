@@ -3181,7 +3181,7 @@ async function run() {
         const ips = results.flatMap((result) => result.stdout.split(/\r|\n/));
         _actions_core__WEBPACK_IMPORTED_MODULE_1__.info(`Resolved IPs: ${ips.join(', ')}`);
         const routes = ips.map((ip) => `route ${ip} 255.255.255.255`);
-        await node_fs_promises__WEBPACK_IMPORTED_MODULE_0__.appendFile(configFile, `\n${routes.join('\n')}\n`);
+        await node_fs_promises__WEBPACK_IMPORTED_MODULE_0__.appendFile(configFile, `\nroute-nopull\n${routes.join('\n')}\n`);
     }
     // username & password auth
     if (username && password) {
