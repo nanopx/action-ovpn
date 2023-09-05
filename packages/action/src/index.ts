@@ -5,7 +5,7 @@ import { run as post } from './post'
 const disconnect = core.getInput('disconnect')
 const isPost = core.getState('isPost')
 const isCleanedUp = core.getState('isCleanedUp')
-const pid = core.getInput('pid') ?? core.getState('pid')
+const pid = core.getInput('pid') || core.getState('pid')
 
 async function cleanup() {
   try {
