@@ -3094,9 +3094,9 @@ var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_mai
 const isPost = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getState('isPost');
 const disconnect = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getState('disconnect');
 const isCleanedUp = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getState('isCleanedUp');
+const pid = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('pid') ?? _actions_core__WEBPACK_IMPORTED_MODULE_0__.getState('pid');
 async function cleanup() {
     try {
-        const pid = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getState('pid');
         await (0,_post__WEBPACK_IMPORTED_MODULE_2__/* .run */ .K)(pid);
         _actions_core__WEBPACK_IMPORTED_MODULE_0__.saveState('isCleanedUp', 'true');
     }
@@ -3107,7 +3107,8 @@ async function cleanup() {
     }
 }
 async function run() {
-    if (disconnect) {
+    if (disconnect && !isCleanedUp) {
+        _actions_core__WEBPACK_IMPORTED_MODULE_0__.info('Disconnecting VPN using `disconnect` option.');
         await cleanup();
         return;
     }
@@ -3116,6 +3117,7 @@ async function run() {
         try {
             const pid = await (0,_main__WEBPACK_IMPORTED_MODULE_1__/* .run */ .K)();
             _actions_core__WEBPACK_IMPORTED_MODULE_0__.saveState('pid', pid);
+            _actions_core__WEBPACK_IMPORTED_MODULE_0__.setOutput('pid', pid);
         }
         catch (e) {
             if (e instanceof Error) {

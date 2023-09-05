@@ -5,10 +5,10 @@ import { run as post } from './post'
 const isPost = core.getState('isPost')
 const disconnect = core.getState('disconnect')
 const isCleanedUp = core.getState('isCleanedUp')
+const pid = core.getInput('pid') ?? core.getState('pid')
 
 async function cleanup() {
   try {
-    const pid = core.getState('pid')
     await post(pid)
     core.saveState('isCleanedUp', 'true')
   } catch (e) {
@@ -19,7 +19,9 @@ async function cleanup() {
 }
 
 async function run() {
-  if (disconnect) {
+  if (disconnect && !isCleanedUp) {
+    core.info('Disconnecting VPN using `disconnect` option.')
+
     await cleanup()
     return
   }
@@ -30,6 +32,7 @@ async function run() {
     try {
       const pid = await main()
       core.saveState('pid', pid)
+      core.setOutput('pid', pid)
     } catch (e) {
       if (e instanceof Error) {
         core.setFailed(e.message)
