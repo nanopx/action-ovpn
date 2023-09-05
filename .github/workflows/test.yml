@@ -13,7 +13,8 @@ jobs:
           sudo apt update
           sudo apt install -y openvpn
 
-      - uses: ./
+      - name: Connect to VPN
+        uses: ./
         with:
           ovpnConfig: ${{ secrets.OVPN_CONFIG }}
           username: ${{ secrets.OVPN_USERNAME }}

@@ -3106,9 +3106,12 @@ async function cleanup() {
         }
     }
 }
-_actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`disconnect: ${disconnect} / isCleanup: ${isCleanedUp}`);
 async function run() {
-    if (disconnect && isCleanedUp !== 'true') {
+    if (isCleanedUp) {
+        _actions_core__WEBPACK_IMPORTED_MODULE_0__.info('VPN already disconnected.');
+        return;
+    }
+    if (disconnect) {
         _actions_core__WEBPACK_IMPORTED_MODULE_0__.info('Disconnecting VPN using `disconnect` option.');
         await cleanup();
         return;
