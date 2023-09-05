@@ -3176,9 +3176,10 @@ async function run() {
     ]);
     if (domains) {
         const domainList = domains.split(/\r|\n/).map((domain) => domain.trim());
-        _actions_core__WEBPACK_IMPORTED_MODULE_1__.info(`Ignoring domains: ${domainList.join(', ')}`);
+        _actions_core__WEBPACK_IMPORTED_MODULE_1__.info(`Allowed domains: ${domainList.join(', ')}`);
         const results = await Promise.all(domainList.map((domain) => $ `dig -4 -t A +short ${domain}`));
         const ips = results.flatMap((result) => result.stdout.split(/\r|\n/));
+        _actions_core__WEBPACK_IMPORTED_MODULE_1__.info(`Resolved IPs: ${ips.join(', ')}`);
         const routes = ips.map((ip) => `route ${ip} 255.255.255.255`);
         await node_fs_promises__WEBPACK_IMPORTED_MODULE_0__.appendFile(configFile, `\n${routes.join('\n')}\n`);
     }
