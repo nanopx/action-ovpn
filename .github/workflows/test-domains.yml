@@ -13,6 +13,10 @@ jobs:
           sudo apt update
           sudo apt install -y openvpn
 
+      - name: Get public IP
+        run: |
+          curl -m 5 'https://api64.ipify.org?format=json'
+
       - name: Connect to VPN
         uses: ./
         id: ovpn
@@ -21,4 +25,8 @@ jobs:
           username: ${{ secrets.OVPN_USERNAME }}
           password: ${{ secrets.OVPN_PASSWORD }}
           domains: |-
-            google.com
+            api64.ipify.org
+
+      - name: Get public IP
+        run: |
+          curl -m 5 'https://api64.ipify.org?format=json'
