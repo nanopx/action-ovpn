@@ -2,8 +2,8 @@ import * as core from '@actions/core'
 import { run as main } from './main'
 import { run as post } from './post'
 
+const disconnect = core.getInput('disconnect')
 const isPost = core.getState('isPost')
-const disconnect = core.getState('disconnect')
 const isCleanedUp = core.getState('isCleanedUp')
 const pid = core.getInput('pid') ?? core.getState('pid')
 
@@ -19,7 +19,7 @@ async function cleanup() {
 }
 
 async function run() {
-  if (disconnect && !isCleanedUp) {
+  if (disconnect && isCleanedUp !== 'true') {
     core.info('Disconnecting VPN using `disconnect` option.')
 
     await cleanup()
