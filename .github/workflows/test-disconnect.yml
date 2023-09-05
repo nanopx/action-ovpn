@@ -1,4 +1,4 @@
-name: 'test'
+name: 'test-disconnect'
 
 on: [push]
 
@@ -14,7 +14,13 @@ jobs:
           sudo apt install -y openvpn
 
       - uses: ./
+        id: ovpn
         with:
           ovpnConfig: ${{ secrets.OVPN_CONFIG }}
           username: ${{ secrets.OVPN_USERNAME }}
           password: ${{ secrets.OVPN_PASSWORD }}
+
+      - uses: ./
+        with:
+          pid: ${{ steps.ovpn.outputs.pid }}
+          disconnect: true

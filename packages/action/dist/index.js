@@ -3095,7 +3095,6 @@ const disconnect = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('disconne
 const isPost = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getState('isPost');
 const isCleanedUp = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getState('isCleanedUp');
 const pid = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('pid') || _actions_core__WEBPACK_IMPORTED_MODULE_0__.getState('pid');
-_actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`pid: ${pid}`);
 async function cleanup() {
     try {
         await (0,_post__WEBPACK_IMPORTED_MODULE_2__/* .run */ .K)(pid);
