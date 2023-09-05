@@ -3233,23 +3233,28 @@ __nccwpck_require__.a(module, async (__webpack_handle_async_dependencies__, __we
 /* harmony export */ __nccwpck_require__.d(__webpack_exports__, {
 /* harmony export */   "K": () => (/* binding */ run)
 /* harmony export */ });
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(8041);
-/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var node_fs_promises__WEBPACK_IMPORTED_MODULE_0__ = __nccwpck_require__(3977);
+/* harmony import */ var node_fs_promises__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__nccwpck_require__.n(node_fs_promises__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_1__ = __nccwpck_require__(8041);
+/* harmony import */ var _actions_core__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__nccwpck_require__.n(_actions_core__WEBPACK_IMPORTED_MODULE_1__);
+
 
 const { $ } = await __nccwpck_require__.e(/* import() */ 670).then(__nccwpck_require__.bind(__nccwpck_require__, 9670));
+const logFile = '.openvpn.log';
 async function run(pid) {
     if (!pid) {
-        _actions_core__WEBPACK_IMPORTED_MODULE_0__.warning('Could not find process');
+        _actions_core__WEBPACK_IMPORTED_MODULE_1__.warning('Could not find process');
         return;
     }
-    _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Cleaning up VPN connection with pid: ${pid}`);
     try {
+        _actions_core__WEBPACK_IMPORTED_MODULE_1__.info(await node_fs_promises__WEBPACK_IMPORTED_MODULE_0__.readFile(logFile, 'utf-8'));
+        _actions_core__WEBPACK_IMPORTED_MODULE_1__.info(`Cleaning up VPN connection with pid: ${pid}`);
         await $ `sudo kill ${pid}`;
-        _actions_core__WEBPACK_IMPORTED_MODULE_0__.info('Done.');
+        _actions_core__WEBPACK_IMPORTED_MODULE_1__.info('Done.');
     }
     catch (e) {
         if (e instanceof Error) {
-            _actions_core__WEBPACK_IMPORTED_MODULE_0__.warning(e.message);
+            _actions_core__WEBPACK_IMPORTED_MODULE_1__.warning(e.message);
         }
     }
 }

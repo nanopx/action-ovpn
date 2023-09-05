@@ -11,10 +11,9 @@ export async function run(pid: string) {
     return
   }
 
-  core.info(`Cleaning up VPN connection with pid: ${pid}`)
-
   try {
     core.info(await fs.readFile(logFile, 'utf-8'))
+    core.info(`Cleaning up VPN connection with pid: ${pid}`)
 
     await $`sudo kill ${pid}`
     core.info('Done.')
