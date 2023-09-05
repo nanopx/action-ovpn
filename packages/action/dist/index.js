@@ -3091,8 +3091,8 @@ var __webpack_async_dependencies__ = __webpack_handle_async_dependencies__([_mai
 
 
 
+const disconnect = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('disconnect');
 const isPost = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getState('isPost');
-const disconnect = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getState('disconnect');
 const isCleanedUp = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getState('isCleanedUp');
 const pid = _actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput('pid') ?? _actions_core__WEBPACK_IMPORTED_MODULE_0__.getState('pid');
 async function cleanup() {
@@ -3107,7 +3107,7 @@ async function cleanup() {
     }
 }
 async function run() {
-    if (disconnect && !isCleanedUp) {
+    if (disconnect && isCleanedUp !== 'true') {
         _actions_core__WEBPACK_IMPORTED_MODULE_0__.info('Disconnecting VPN using `disconnect` option.');
         await cleanup();
         return;
@@ -3228,7 +3228,7 @@ async function run(pid) {
         _actions_core__WEBPACK_IMPORTED_MODULE_0__.warning('Could not find process');
         return;
     }
-    _actions_core__WEBPACK_IMPORTED_MODULE_0__.info('Cleaning up VPN connection...');
+    _actions_core__WEBPACK_IMPORTED_MODULE_0__.info(`Cleaning up VPN connection with pid: ${pid}`);
     try {
         await $ `sudo kill ${pid}`;
         _actions_core__WEBPACK_IMPORTED_MODULE_0__.info('Done.');
